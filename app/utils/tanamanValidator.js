@@ -7,7 +7,7 @@ const tanamanValidator = Joi.object({
     family: Joi.string().required(),
     description: Joi.string().required(),
     goodPart: Joi.string().required(),
-    efficacy: Joi.array().items(Joi.string()),
+    efficacy: Joi.array().required(),
 });
 
 module.exports = tanamanValidator;

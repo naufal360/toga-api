@@ -5,6 +5,7 @@ const pageNotFound = require('./utils/pageNotFound');
 const app = express();
 
 // Endpoint
+const medikasiRoute = require('./routes/medikasiRoute');
 const tanamanRoute = require('./routes/tanamanRoute');
 
 // Configure dotenv
@@ -16,14 +17,15 @@ require('./database/mongodb');
 // Port and Path
 const PORT = process.env.PORT || 3000;
 const BASE = '/api';
-const appendUrl = (url) => `{BASE}${url}`;
+const appendUrl = (url) => `${BASE}${url}`;
 
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Router
-app.use(appendUrl('/tanaman'), tanamanRouter);
+app.use(appendUrl('/tanaman'), tanamanRoute);
+app.use(appendUrl('/medikasi'), medikasiRoute);
 
 // Endpoint not created
 app.use('/', pageNotFound);

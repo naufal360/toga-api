@@ -1,46 +1,38 @@
 const httpStatus = require("http-status");
 const Response = require("../model/Response");
-const Tanaman = require("../model/Tanaman");
-const tanamanValidator = require("../utils/tanamanValidator");
+const Medikasi = require("../model/Medikasi");
+const medikasiValidator = require("../utils/medikasiValidator");
 
-const postTanaman = async (req, res) => {
+const postMedikasi = async (req, res) => {
     let response = null;
     try {
         const {
-            imageUrl,
             name,
-            latinName,
-            family,
             description,
-            goodPart,
-            efficacy,
-        } = await tanamanValidator.validateAsync(req.body);
+            treatment,
+        } = await medikasiValidator.validateAsync(req.body);
 
-        const tanaman = new Tanaman({
-            imageUrl,
+        const medikasi = new Medikasi({
             name,
-            latinName,
-            family,
             description,
-            goodPart,
-            efficacy,
+            treatment,
         });
 
-        const tanamanSave = await tanaman.save();
-        res.status(httpStatus.OK).json({ message: "Tanaman berhasil ditambahkan!" });
+        await medikasi.save();
+        res.status(httpStatus.OK).json({ message: "Medikasi berhasil ditambahkan!" });
     } catch (error) {
         response = new Response.Error(true, error.message);
         res.status(httpStatus.BAD_REQUEST).json(response);
     }
 };
 
-const getTanaman = async (req, res) => {
+const getMedikasi = async (req, res) => {
     let response = null;
     const msg = "success";
     try {
-        const tanaman = await Tanaman.find();
+        const medikasi = await Medikasi.find();
 
-        response = new Response.Success(false, msg, tanaman);
+        response = new Response.Success(false, msg, medikasi);
         res.status(httpStatus.OK).json(response);
     } catch (error) {
         response = new Response.Error(true, error.message);
@@ -48,22 +40,22 @@ const getTanaman = async (req, res) => {
     }
 };
 
-const getTanamanByName = async (req, res) => {
+const getMedikasiByName = async (req, res) => {
     let response = null;
     const msg = "success";
-    const errorMsg = "Nama tanaman tidak ditemukan!"
+    const errorMsg = "Nama medikasi tidak ditemukan!"
     try {
         const reqName = req.query.name;
-        const findTanaman = await Tanaman.findOne({
+        const findMedikasi = await Medikasi.findOne({
             name: reqName,
         });
 
-        if(!findTanaman) {
+        if(!findMedikasi) {
             response = new Response.Error(true, errorMsg);
             res.status(httpStatus.BAD_REQUEST).json(response);
         }
 
-        response = new Response.Success(false, msg, findTanaman);
+        response = new Response.Success(false, msg, findMedikasi);
         res.status(httpStatus.OK).json(response);
     } catch (error) {
         response = new Response.Error(true, error.message);
@@ -71,40 +63,40 @@ const getTanamanByName = async (req, res) => {
     }
 };
 
-const updateTanaman = async (req, res) => {
+const updateMedikasi = async (req, res) => {
     let response = null;
-    const errorMsg = "ID tanaman tidak ditemukan!";
+    const errorMsg = "ID medikasi tidak ditemukan!";
     try {
-        const findTanaman = await Tanaman.findByIdAndUpdate(req.query.id, req.body);
+        const findMedikasi = await Medikasi.findByIdAndUpdate(req.query.id, req.body);
 
-        if(!findTanaman) {
+        if(!findMedikasi) {
             response = new Response.Error(true, errorMsg);
             res.status(httpStatus.BAD_REQUEST).json(response);
         };
 
-        res.status(httpStatus.OK).json({ message: "Tanaman berhasil diupdate!" });
+        res.status(httpStatus.OK).json({ message: "Medikasi berhasil diupdate!" });
     } catch (error) {
         response = new Response.Error(true, error.message);
         res.status(httpStatus.BAD_REQUEST).json(response);
     }
 };
 
-const deleteTanaman = async (req, res) => {
+const deleteMedikasi = async (req, res) => {
     let response = null;
-    const errorMsg = "ID tanaman tidak ditemukan!";
+    const errorMsg = "ID medikasi tidak ditemukan!";
     try {
-        const delTanaman = await Tanaman.findByIdAndDelete(req.query.id);
+        const delMedikasi = await Medikasi.findByIdAndDelete(req.query.id);
 
-        if(!delTanaman) {
+        if(!delMedikasi) {
             response = new Response.Error(true, errorMsg);
             res.status(httpStatus.BAD_REQUEST).json(response);
         };
 
-        res.status(httpStatus.OK).json({ message: "Tanaman berhasil dihapus!"});
+        res.status(httpStatus.OK).json({ message: "Medikasi berhasil dihapus!"});
     } catch (error) {
         response = new Response.Error(true, error.message);
         res.status(httpStatus.BAD_REQUEST).json(response);
     }
 };
 
-module.exports = { postTanaman, getTanaman, getTanamanByName, updateTanaman, deleteTanaman };
+module.exports = { postMedikasi, getMedikasi, getMedikasiByName, updateMedikasi, deleteMedikasi };

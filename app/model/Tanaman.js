@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const tanamanSchema = new mongoose.Schema({
-    imageUrl: {
+  imageUrl: {
     type: String,
     required: true,
   },
