@@ -30,6 +30,11 @@ const medikasiSchema = new mongoose.Schema({
     },
     required: true,
   },
+
+  moreAbout: {
+    type: String,
+    required: true,
+  },
   
 });
 

@@ -10,12 +10,14 @@ const postMedikasi = async (req, res) => {
             name,
             description,
             treatment,
+            moreAbout,
         } = await medikasiValidator.validateAsync(req.body);
 
         const medikasi = new Medikasi({
             name,
             description,
             treatment,
+            moreAbout,
         });
 
         await medikasi.save();

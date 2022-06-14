@@ -8,6 +8,7 @@ const medikasiValidator = Joi.object({
       make: Joi.string().required(),
       consume: Joi.string().required(),
     }).required(),
+    moreAbout: Joi.string().required(),
 });
 
 module.exports = medikasiValidator;
