@@ -7,6 +7,7 @@ const postTanaman = async (req, res) => {
     let response = null;
     try {
         const {
+            _id,
             imageUrl,
             name,
             latinName,
@@ -17,6 +18,7 @@ const postTanaman = async (req, res) => {
         } = await tanamanValidator.validateAsync(req.body);
 
         const tanaman = new Tanaman({
+            _id,
             imageUrl,
             name,
             latinName,
@@ -27,7 +29,7 @@ const postTanaman = async (req, res) => {
         });
 
         const tanamanSave = await tanaman.save();
-        res.status(httpStatus.OK).json({ message: "Tanaman berhasil ditambahkan!" });
+        res.status(httpStatus.CREATED).json(tanamanSave);
     } catch (error) {
         response = new Response.Error(true, error.message);
         res.status(httpStatus.BAD_REQUEST).json(response);
@@ -36,12 +38,10 @@ const postTanaman = async (req, res) => {
 
 const getTanaman = async (req, res) => {
     let response = null;
-    const msg = "success";
     try {
         const tanaman = await Tanaman.find();
 
-        response = new Response.Success(false, msg, tanaman);
-        res.status(httpStatus.OK).json(response);
+        res.status(httpStatus.OK).json(tanaman);
     } catch (error) {
         response = new Response.Error(true, error.message);
         res.status(httpStatus.BAD_REQUEST).json(response);
@@ -50,7 +50,6 @@ const getTanaman = async (req, res) => {
 
 const getTanamanByName = async (req, res) => {
     let response = null;
-    const msg = "success";
     const errorMsg = "Nama tanaman tidak ditemukan!"
     try {
         const reqName = req.query.name;
@@ -63,8 +62,7 @@ const getTanamanByName = async (req, res) => {
             res.status(httpStatus.BAD_REQUEST).json(response);
         }
 
-        response = new Response.Success(false, msg, findTanaman);
-        res.status(httpStatus.OK).json(response);
+        res.status(httpStatus.OK).json(findTanaman);
     } catch (error) {
         response = new Response.Error(true, error.message);
         res.status(httpStatus.BAD_REQUEST).json(response);

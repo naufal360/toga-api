@@ -1,6 +1,11 @@
 const mongoose = require("mongoose");
 
 const tanamanSchema = new mongoose.Schema({
+  _id: {
+    type: Number,
+    required: true,
+  },
+
   imageUrl: {
     type: String,
     required: true,

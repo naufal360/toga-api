@@ -1,6 +1,7 @@
 const Joi = require('joi');
 
 const tanamanValidator = Joi.object({
+    _id: Joi.number().required(),
     imageUrl: Joi.string().required(),
     name: Joi.string().required(),
     latinName: Joi.string().required(),

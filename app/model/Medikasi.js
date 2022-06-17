@@ -1,6 +1,11 @@
 const mongoose = require("mongoose");
 
 const medikasiSchema = new mongoose.Schema({
+  _id: {
+    type: Number,
+    required: true,
+  },
+
   name: {
     type: String,
     required: true,
@@ -11,23 +16,18 @@ const medikasiSchema = new mongoose.Schema({
     required: true,
   },
 
-  treatment: {
-    type: {
-      material: {
-        type: [String],
-        required: true,
-      },
+  material: {
+    type: [String],
+    required: true,
+  },
 
-      make: {
-        type: String,
-        required: true,
-      },
-      
-      consume: {
-        type: String,
-        required: true,
-      },
-    },
+  make: {
+    type: String,
+    required: true,
+  },
+  
+  consume: {
+    type: String,
     required: true,
   },
 
@@ -35,7 +35,6 @@ const medikasiSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  
 });
 
 const Medikasi = mongoose.model("Medikasi", medikasiSchema);

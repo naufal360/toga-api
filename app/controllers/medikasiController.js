@@ -7,21 +7,27 @@ const postMedikasi = async (req, res) => {
     let response = null;
     try {
         const {
+            _id,
             name,
             description,
-            treatment,
+            material,
+            make,
+            consume,
             moreAbout,
         } = await medikasiValidator.validateAsync(req.body);
 
         const medikasi = new Medikasi({
+            _id,
             name,
             description,
-            treatment,
+            material,
+            make,
+            consume,
             moreAbout,
         });
 
-        await medikasi.save();
-        res.status(httpStatus.OK).json({ message: "Medikasi berhasil ditambahkan!" });
+        const medikasiSave = await medikasi.save();
+        res.status(httpStatus.CREATED).json(medikasiSave);
     } catch (error) {
         response = new Response.Error(true, error.message);
         res.status(httpStatus.BAD_REQUEST).json(response);
@@ -30,12 +36,10 @@ const postMedikasi = async (req, res) => {
 
 const getMedikasi = async (req, res) => {
     let response = null;
-    const msg = "success";
     try {
         const medikasi = await Medikasi.find();
 
-        response = new Response.Success(false, msg, medikasi);
-        res.status(httpStatus.OK).json(response);
+        res.status(httpStatus.OK).json(medikasi);
     } catch (error) {
         response = new Response.Error(true, error.message);
         res.status(httpStatus.BAD_REQUEST).json(response);
@@ -57,8 +61,7 @@ const getMedikasiByName = async (req, res) => {
             res.status(httpStatus.BAD_REQUEST).json(response);
         }
 
-        response = new Response.Success(false, msg, findMedikasi);
-        res.status(httpStatus.OK).json(response);
+        res.status(httpStatus.OK).json(findMedikasi);
     } catch (error) {
         response = new Response.Error(true, error.message);
         res.status(httpStatus.BAD_REQUEST).json(response);
