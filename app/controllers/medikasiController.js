@@ -26,6 +26,14 @@ const postMedikasi = async (req, res) => {
             moreAbout,
         });
 
+        const checkId = await Medikasi.findOne({ _id: _id });
+        const msg = "ID sudah ada!"
+        if(checkId){
+            response = new Response.Error(true, msg);
+            res.status(httpStatus.BAD_REQUEST).json(response);
+            return;
+        }
+        
         const medikasiSave = await medikasi.save();
         res.status(httpStatus.CREATED).json(medikasiSave);
     } catch (error) {
@@ -59,6 +67,7 @@ const getMedikasiByName = async (req, res) => {
         if(!findMedikasi) {
             response = new Response.Error(true, errorMsg);
             res.status(httpStatus.BAD_REQUEST).json(response);
+            return;
         }
 
         res.status(httpStatus.OK).json(findMedikasi);
@@ -77,6 +86,7 @@ const updateMedikasi = async (req, res) => {
         if(!findMedikasi) {
             response = new Response.Error(true, errorMsg);
             res.status(httpStatus.BAD_REQUEST).json(response);
+            return;
         };
 
         res.status(httpStatus.OK).json({ message: "Medikasi berhasil diupdate!" });
@@ -95,6 +105,7 @@ const deleteMedikasi = async (req, res) => {
         if(!delMedikasi) {
             response = new Response.Error(true, errorMsg);
             res.status(httpStatus.BAD_REQUEST).json(response);
+            return;
         };
 
         res.status(httpStatus.OK).json({ message: "Medikasi berhasil dihapus!"});

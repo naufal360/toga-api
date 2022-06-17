@@ -28,6 +28,14 @@ const postTanaman = async (req, res) => {
             efficacy,
         });
 
+        const checkId = await Tanaman.findOne({ _id: _id });
+        const msg = "ID sudah ada!"
+        if(checkId){
+            response = new Response.Error(true, msg);
+            res.status(httpStatus.BAD_REQUEST).json(response);
+            return;
+        }
+
         const tanamanSave = await tanaman.save();
         res.status(httpStatus.CREATED).json(tanamanSave);
     } catch (error) {
@@ -60,6 +68,7 @@ const getTanamanByName = async (req, res) => {
         if(!findTanaman) {
             response = new Response.Error(true, errorMsg);
             res.status(httpStatus.BAD_REQUEST).json(response);
+            return;
         }
 
         res.status(httpStatus.OK).json(findTanaman);
@@ -78,6 +87,7 @@ const updateTanaman = async (req, res) => {
         if(!findTanaman) {
             response = new Response.Error(true, errorMsg);
             res.status(httpStatus.BAD_REQUEST).json(response);
+            return;
         };
 
         res.status(httpStatus.OK).json({ message: "Tanaman berhasil diupdate!" });
@@ -96,6 +106,7 @@ const deleteTanaman = async (req, res) => {
         if(!delTanaman) {
             response = new Response.Error(true, errorMsg);
             res.status(httpStatus.BAD_REQUEST).json(response);
+            return;
         };
 
         res.status(httpStatus.OK).json({ message: "Tanaman berhasil dihapus!"});
