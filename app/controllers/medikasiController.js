@@ -54,14 +54,28 @@ const getMedikasi = async (req, res) => {
     }
 };
 
+const getMedikasiById = async (req, res) => {
+    let response = null;
+    try {
+        const medikasi =  await Medikasi.findOne({ _id: req.params._id});
+
+        res.status(httpStatus.OK).json(medikasi);
+    } catch (error) {
+        response = new Response.Error(true, error.message);
+        res.status(httpStatus.BAD_REQUEST).json(response);
+    }
+};
+
 const getMedikasiByName = async (req, res) => {
     let response = null;
-    const msg = "success";
     const errorMsg = "Nama medikasi tidak ditemukan!"
     try {
         const reqName = req.query.name;
-        const findMedikasi = await Medikasi.findOne({
-            name: reqName,
+        const capFirst = reqName.charAt(0).toUpperCase() + reqName.slice(1);
+        const nameWord = capFirst.replace(/(^w{1})|(\s+\w{1})/g, word => word.toUpperCase());
+
+        const findMedikasi = await Medikasi.find({
+            name: {'$regex': nameWord},
         });
 
         if(!findMedikasi) {
@@ -115,4 +129,4 @@ const deleteMedikasi = async (req, res) => {
     }
 };
 
-module.exports = { postMedikasi, getMedikasi, getMedikasiByName, updateMedikasi, deleteMedikasi };
+module.exports = { postMedikasi, getMedikasi, getMedikasiById, getMedikasiByName, updateMedikasi, deleteMedikasi };

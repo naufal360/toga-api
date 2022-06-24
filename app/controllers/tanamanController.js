@@ -56,13 +56,28 @@ const getTanaman = async (req, res) => {
     }
 };
 
+const getTanamanById = async (req, res) => {
+    let response = null;
+    try {
+        const tanaman =  await Tanaman.findOne({ _id: req.params._id});
+
+        res.status(httpStatus.OK).json(tanaman);
+    } catch (error) {
+        response = new Response.Error(true, error.message);
+        res.status(httpStatus.BAD_REQUEST).json(response);
+    }
+};
+
 const getTanamanByName = async (req, res) => {
     let response = null;
     const errorMsg = "Nama tanaman tidak ditemukan!"
     try {
         const reqName = req.query.name;
-        const findTanaman = await Tanaman.findOne({
-            name: reqName,
+        const capFirst = reqName.charAt(0).toUpperCase() + reqName.slice(1);
+        const nameWord = capFirst.replace(/(^w{1})|(\s+\w{1})/g, word => word.toUpperCase());
+        
+        const findTanaman = await Tanaman.find({
+            name: {'$regex': nameWord},
         });
 
         if(!findTanaman) {
@@ -116,4 +131,4 @@ const deleteTanaman = async (req, res) => {
     }
 };
 
-module.exports = { postTanaman, getTanaman, getTanamanByName, updateTanaman, deleteTanaman };
+module.exports = { postTanaman, getTanaman, getTanamanById, getTanamanByName, updateTanaman, deleteTanaman };
