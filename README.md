@@ -2,7 +2,8 @@
 
 ## ==============================================
 
-## heroku url : https://pi-toga.herokuapp.com/api
+## heroku url : 
+<h2><a href="https://pi-toga.herokuapp.com/api" target="_blank">Click here to visit the API</a></h2>
 
 ## ==============================================
 

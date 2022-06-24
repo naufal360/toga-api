@@ -28,6 +28,8 @@ app.use(appendUrl('/tanaman'), tanamanRoute);
 app.use(appendUrl('/medikasi'), medikasiRoute);
 
 // Endpoint not created
-app.use('/', pageNotFound);
+app.use('/', (req, res) => {
+  res.send('<h1>Welcome to the Toga API, This API for educational purposes made by Ahmad Naufal Fadhil.</h1>');
+});
 
 app.listen(PORT, () => console.log(`Listening on port http://localhost:${PORT}`));
