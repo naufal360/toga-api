@@ -40,6 +40,21 @@ const tanamanSchema = new mongoose.Schema({
     type: [String],
     required: true,
   },
+
+  contained: {
+    type: [String],
+    required: true,
+  },
+
+  articles: {
+    type: String,
+    required: true,
+  },
+
+  youtube: {
+    type: String,
+    required: true,
+  },
 });
 
 const Tanaman = mongoose.model("Tanaman", tanamanSchema);

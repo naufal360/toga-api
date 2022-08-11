@@ -9,6 +9,9 @@ const tanamanValidator = Joi.object({
     description: Joi.string().required(),
     goodPart: Joi.string().required(),
     efficacy: Joi.array().required(),
+    contained: Joi.array().required(),
+    articles: Joi.string().required(),
+    youtube: Joi.string().required(),
 });
 
 module.exports = tanamanValidator;

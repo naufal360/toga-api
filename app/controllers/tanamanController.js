@@ -15,6 +15,9 @@ const postTanaman = async (req, res) => {
             description,
             goodPart,
             efficacy,
+            contained,
+            articles,
+            youtube,
         } = await tanamanValidator.validateAsync(req.body);
 
         const tanaman = new Tanaman({
@@ -26,6 +29,9 @@ const postTanaman = async (req, res) => {
             description,
             goodPart,
             efficacy,
+            contained,
+            articles,
+            youtube,
         });
 
         const checkId = await Tanaman.findOne({ _id: _id });

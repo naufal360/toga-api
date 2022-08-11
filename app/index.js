@@ -1,6 +1,6 @@
 const express = require('express');
 const dotenv = require('dotenv');
-const pageNotFound = require('./utils/pageNotFound');
+const path = require('path');
 
 const app = express();
 
@@ -21,15 +21,19 @@ const appendUrl = (url) => `${BASE}${url}`;
 
 // Middleware
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false }));
+
+// Configure ejs
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
 
 // Router
 app.use(appendUrl('/tanaman'), tanamanRoute);
 app.use(appendUrl('/medikasi'), medikasiRoute);
 
-// Endpoint not created
+// Endpoint index
 app.use('/', (req, res) => {
-  res.send('<h1>Welcome to the Toga API, This API for educational purposes made by Ahmad Naufal Fadhil.</h1>');
+  res.render('index');
 });
 
 app.listen(PORT, () => console.log(`Listening on port http://localhost:${PORT}`));
